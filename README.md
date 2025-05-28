@@ -20,7 +20,7 @@ Sistema web para la evaluación de docentes por parte de los estudiantes, desarr
 
 1. Clonar el repositorio:
 ```bash
-git clone https://github.com/[tu-usuario]/evaluacion-docente.git
+git clone https://github.com/MarycieloBerrio/evaluacion-docente.git
 cd evaluacion-docente
 ```
 
