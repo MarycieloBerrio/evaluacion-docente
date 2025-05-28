@@ -1,0 +1,18 @@
+.survey-container{
+  background-color:#e8e6e6;
+  border-radius: 8px;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 1.5rem;
+
+}
+
+
+.message-container button{
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}

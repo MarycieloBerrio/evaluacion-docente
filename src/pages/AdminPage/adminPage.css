@@ -1,0 +1,55 @@
+.admin-container {
+  background-color: #f1f1f1;
+  padding: 3rem 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.admin-container h1 {
+  text-align: center;
+  font-size: 2rem;
+}
+
+.admin-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.admin-tabs button {
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 6px;
+  padding: .85rem 1rem;
+  cursor: pointer;
+  font-size: 1.15rem;
+}
+
+
+.admin-tabs .active {
+  background-color: #007bff;
+  color: white;
+}
+
+.admin-content {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.back-button {
+  margin: 0 auto;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: .85rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
