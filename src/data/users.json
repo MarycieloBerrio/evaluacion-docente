@@ -1,0 +1,9 @@
+{
+  "users": [
+    {
+      "email": "mberrioz@unal.edu.co",
+      "roles": ["estudiante", "admin"],
+      "name": "Marycielo Berrio"
+    }
+  ]
+} 
