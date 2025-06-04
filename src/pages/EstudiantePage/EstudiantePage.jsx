@@ -55,7 +55,7 @@ function EstudiantePage() {
 
     // Verify student role
     if (!userRoles?.includes('estudiante')) {
-      setError('You do not have permission to access this page');
+      setError('No tiene permiso para acceder a esta página');
       return;
     }
 
@@ -65,8 +65,8 @@ function EstudiantePage() {
       // Set all periods as available for temporary student
       setAvailablePeriods(periods);
       
-      // Select first available period
-      if (periods.length > 0) {
+      // Select first available period only if no period is selected
+      if (periods.length > 0 && !selectedPeriod) {
         setSelectedPeriod(periods[0].id);
         setCurrentPeriod(periods[0].id);
       }
@@ -84,8 +84,8 @@ function EstudiantePage() {
       
       setAvailablePeriods(filteredPeriods);
       
-      // Select first available period if current is not available
-      if (filteredPeriods.length > 0) {
+      // Select first available period only if current is not available and no period is selected
+      if (filteredPeriods.length > 0 && !selectedPeriod) {
         const isCurrentPeriodAvailable = filteredPeriods.some(p => p.id === currentPeriod);
         if (!isCurrentPeriodAvailable) {
           setSelectedPeriod(filteredPeriods[0].id);
@@ -93,7 +93,7 @@ function EstudiantePage() {
         }
       }
     }
-  }, [currentUser, userRoles, students, studentCourses, periods, currentPeriod, navigate]);
+  }, [currentUser, userRoles, students, studentCourses, periods, currentPeriod, navigate, selectedPeriod]);
   
   /**
    * Get student's courses for the selected period
@@ -107,7 +107,7 @@ function EstudiantePage() {
         courseId: course.id,
         teacherId: teachers[0]?.id,
         courseName: course.nombre,
-        teacherName: teachers[0]?.nombre || 'Example Teacher',
+        teacherName: teachers[0]?.nombre || 'Profesor Ejemplo',
         group: course.grupo,
         isEvaluated: false
       }));
@@ -133,8 +133,8 @@ function EstudiantePage() {
       return {
         courseId: sc.courseId,
         teacherId: sc.teacherId,
-        courseName: course ? course.nombre : 'Unknown Course',
-        teacherName: teacher ? teacher.nombre : 'Unknown Teacher',
+        courseName: course ? course.nombre : 'Curso Desconocido',
+        teacherName: teacher ? teacher.nombre : 'Profesor Desconocido',
         group: sc.group,
         isEvaluated: isEvaluated
       };
@@ -161,9 +161,9 @@ function EstudiantePage() {
       setShowEvaluationForm(false);
       setSelectedTeacher(null);
       setSelectedCourse(null);
-      alert('Evaluation submitted successfully!');
+      alert('¡Evaluación enviada exitosamente!');
     } else {
-      alert('There was a problem submitting the evaluation. Please try again.');
+      alert('Hubo un problema al enviar la evaluación. Por favor, intente nuevamente.');
     }
   };
   
@@ -192,9 +192,9 @@ function EstudiantePage() {
     return (
       <div className="student-container">
         <div className="error-message">
-          <h2>Access Error</h2>
+          <h2>Error de Acceso</h2>
           <p>{error}</p>
-          <button onClick={() => navigate('/')}>Return to Home</button>
+          <button onClick={() => navigate('/')}>Volver al Inicio</button>
         </div>
       </div>
     );
@@ -202,24 +202,24 @@ function EstudiantePage() {
 
   return (
     <div className="student-container">
-      <h1>Student Portal</h1>
+      <h1>Portal del Estudiante</h1>
       <div className="student-dashboard">
         <PeriodSelector 
           periods={availablePeriods}
           selectedPeriod={selectedPeriod}
           onSelectPeriod={handlePeriodChange}
-          label="Select academic period:"
+          label="Seleccione el período académico:"
         />
         
         {!isEvaluationActive ? (
           <div className="message-container">
-            <h2>Evaluation Not Available</h2>
-            <p>The teacher evaluation survey is not active for period {selectedPeriod}.</p>
-            <button onClick={() => navigate('/')}>Return to Home</button>
+            <h2>Evaluación No Disponible</h2>
+            <p>La encuesta de evaluación docente no está activa para el período {selectedPeriod}.</p>
+            <button onClick={() => navigate('/')}>Volver al Inicio</button>
           </div>
         ) : showEvaluationForm ? (
           <div className="survey-container">
-            <h2>Teacher Evaluation - Period {selectedPeriod}</h2>
+            <h2>Evaluación Docente - Período {selectedPeriod}</h2>
             <EncuestaForm
               studentId={students.find(s => s.email === currentUser.email)?.id || currentUser.uid}
               teacherId={selectedTeacher}
@@ -227,11 +227,11 @@ function EstudiantePage() {
               periodId={selectedPeriod}
               onComplete={handleSubmitForm}
             />
-            <button onClick={() => setShowEvaluationForm(false)}>Cancel</button>
+            <button onClick={() => setShowEvaluationForm(false)}>Cancelar</button>
           </div>
         ) : (
           <>
-            <h2>Select a teacher to evaluate</h2>
+            <h2>Seleccione un profesor para evaluar</h2>
             <CoursesList
               courses={getStudentCourses()}
               selectedTeacher={selectedTeacher}
@@ -239,7 +239,7 @@ function EstudiantePage() {
               onSelectTeacher={handleSelectTeacher}
             />
             <button onClick={() => navigate('/')} className="back-button">
-              Return to Home
+              Volver al Inicio
             </button>
           </>
         )}
