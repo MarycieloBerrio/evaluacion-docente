@@ -5,5 +5,10 @@
       "roles": ["estudiante", "admin"],
       "name": "Marycielo Berrio"
     }
+    {
+      "email": "natocancipag@unal.edu.co",
+      "roles": ["estudiante", "admin"],
+      "name": "Nestor Tocancipa"
+    }
   ]
 } 
