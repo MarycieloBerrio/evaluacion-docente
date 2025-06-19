@@ -9,24 +9,31 @@ function EvaluationForm({ studentId, teacherId, courseId, periodId, onComplete }
   // Verificar que questions existe antes de usar map
   const questionsArray = questions || [];
   
-  // Inicializar respuestas con valores predeterminados (0)
+  // Inicializar respuestas sin valor predeterminado para que ninguna opción esté seleccionada
   useEffect(() => {
     if (questionsArray.length > 0) {
-      setAnswers(new Array(questionsArray.length).fill(0));
+      setAnswers(new Array(questionsArray.length).fill(null));
     }
   }, [questionsArray]);
   
   const handleAnswerChange = (index, value) => {
     const newAnswers = [...answers];
-    newAnswers[index] = parseInt(value);
+    newAnswers[index] = value;
     setAnswers(newAnswers);
   };
   
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Verificar que todas las preguntas tienen respuesta
-    const allQuestionsAnswered = answers.every(answer => answer > 0);
+    // Verificar que todas las preguntas tienen respuesta (no son null)
+    const allQuestionsAnswered = answers.every((answer, index) => {
+      const question = questionsArray[index];
+      // Para preguntas abiertas, verificar que no esté vacío
+      if (question.tipoRespuesta === 'abierta') {
+        return answer !== null && answer.trim() !== '';
+      }
+      return answer !== null;
+    });
     
     if (!allQuestionsAnswered) {
       alert('Por favor, responda todas las preguntas');
@@ -62,7 +69,10 @@ function EvaluationForm({ studentId, teacherId, courseId, periodId, onComplete }
       return (
         <div className="rating-container">
           {[1, 2, 3, 4, 5].map((value) => (
-            <label key={value} className="rating-label">
+            <label 
+              key={value} 
+              className={`rating-label ${answers[index] === value ? 'seleccionada-pregunta' : ''}`}
+            >
               <input
                 type="radio"
                 name={`question-${index}`}
@@ -80,10 +90,24 @@ function EvaluationForm({ studentId, teacherId, courseId, periodId, onComplete }
     
     // Para el nuevo formato con tipos de respuesta
     switch (question.tipoRespuesta) {
+      case 'abierta':
+        return (
+          <div className="open-question-container">
+            <textarea
+              value={answers[index] || ''}
+              onChange={(e) => handleAnswerChange(index, e.target.value)}
+              placeholder="Escriba su respuesta aquí..."
+              required
+              rows={4}
+              className="open-question-textarea"
+            />
+          </div>
+        );
+      
       case 'binaria':
         return (
           <div className="rating-container binaria">
-            <label className="rating-label">
+            <label className={`rating-label ${answers[index] === 1 ? 'seleccionada-pregunta' : ''}`}>
               <input
                 type="radio"
                 name={`question-${index}`}
@@ -94,7 +118,7 @@ function EvaluationForm({ studentId, teacherId, courseId, periodId, onComplete }
               />
               No
             </label>
-            <label className="rating-label">
+            <label className={`rating-label ${answers[index] === 5 ? 'seleccionada-pregunta' : ''}`}>
               <input
                 type="radio"
                 name={`question-${index}`}
@@ -117,7 +141,10 @@ function EvaluationForm({ studentId, teacherId, courseId, periodId, onComplete }
               { value: 3, label: 'Frecuentemente' },
               { value: 5, label: 'Siempre' }
             ].map((option) => (
-              <label key={option.value} className="rating-label">
+              <label 
+                key={option.value} 
+                className={`rating-label ${answers[index] === option.value ? 'seleccionada-pregunta' : ''}`}
+              >
                 <input
                   type="radio"
                   name={`question-${index}`}
@@ -142,7 +169,10 @@ function EvaluationForm({ studentId, teacherId, courseId, periodId, onComplete }
               { value: 5, label: 'Siempre' },
               { value: 0, label: 'No aplica' }
             ].map((option) => (
-              <label key={option.value} className="rating-label">
+              <label 
+                key={option.value} 
+                className={`rating-label ${answers[index] === option.value ? 'seleccionada-pregunta' : ''}`}
+              >
                 <input
                   type="radio"
                   name={`question-${index}`}
@@ -166,7 +196,10 @@ function EvaluationForm({ studentId, teacherId, courseId, periodId, onComplete }
               { value: 4, label: 'Alto' },
               { value: 5, label: 'Muy alto' }
             ].map((option) => (
-              <label key={option.value} className="rating-label">
+              <label 
+                key={option.value} 
+                className={`rating-label ${answers[index] === option.value ? 'seleccionada-pregunta' : ''}`}
+              >
                 <input
                   type="radio"
                   name={`question-${index}`}
@@ -186,7 +219,10 @@ function EvaluationForm({ studentId, teacherId, courseId, periodId, onComplete }
         return (
           <div className="rating-container">
             {[1, 2, 3, 4, 5].map((value) => (
-              <label key={value} className="rating-label">
+              <label 
+                key={value} 
+                className={`rating-label ${answers[index] === value ? 'seleccionada-pregunta' : ''}`}
+              >
                 <input
                   type="radio"
                   name={`question-${index}`}
@@ -223,7 +259,7 @@ function EvaluationForm({ studentId, teacherId, courseId, periodId, onComplete }
         ))}
       </div>
       
-      <button type="submit" className="submit-button">
+      <button type="submit" className="submit-button" onClick={handleSubmit}>
         Enviar Evaluación
       </button>
     </form>

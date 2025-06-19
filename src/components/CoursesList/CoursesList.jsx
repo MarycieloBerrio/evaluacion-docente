@@ -1,4 +1,3 @@
-import React from 'react';
 import './coursesList.css';
 
 function CoursesList({ courses, onSelectTeacher }) {
@@ -7,16 +6,24 @@ function CoursesList({ courses, onSelectTeacher }) {
       {courses.length === 0 ? (
         <p className="no-courses">No hay cursos disponibles para este periodo.</p>
       ) : (
-        courses.map((course, index) => (
+        courses.map((teacher, index) => (
           <div 
             key={index} 
-            className={`course-item ${course.isEvaluated ? 'evaluated' : ''}`}
-            onClick={() => !course.isEvaluated && onSelectTeacher(course.teacherId, course.courseId)}
+            className={`course-item ${teacher.isEvaluated ? 'evaluated' : ''}`}
+            onClick={() => !teacher.isEvaluated && onSelectTeacher(teacher.teacherId, teacher.courses[0].courseId)}
           >
-            <h3>{course.courseName}</h3>
-            <p><strong>Docente:</strong> {course.teacherName}</p>
-            <p><strong>Grupo:</strong> {course.group}</p>
-            {course.isEvaluated ? (
+            <h3>{teacher.teacherName}</h3>
+            <div className="courses-info">
+              <p><strong>Asignaturas:</strong></p>
+              <ul>
+                {teacher.courses.map((course, courseIndex) => (
+                  <li key={courseIndex}>
+                    {course.courseName} - Grupo {course.group}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {teacher.isEvaluated ? (
               <div className="evaluation-status">
                 <span className="status-badge">Evaluado</span>
               </div>

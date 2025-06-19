@@ -1,64 +1,52 @@
-# Sistema de Evaluación Docente
+*Requerimientos Funcionales* 
 
-Sistema web para la evaluación de docentes por parte de los estudiantes, desarrollado con React y Vite. Permite la gestión de encuestas de evaluación, visualización de resultados y administración del proceso de evaluación.
+1. Roles de usuario
 
-## Características Principales
+RF1.1 El sistema debe permitir el ingreso como Estudiante, Administrador o Docente.
 
-- Sistema de roles (Estudiante, Docente, Administrador)
-- Encuestas de evaluación personalizadas
-- Gestión de resultados y cálculos automáticos
-- Interfaz intuitiva y responsive
-- Persistencia de datos local
+RF1.2 El sistema debe distinguir claramente los permisos y vistas según el rol.
 
-## Requisitos Previos
 
-- Node.js (versión 18 o superior)
-- npm (incluido con Node.js)
-- Git
+2. Funcionalidades para Estudiantes
 
-## Instalación y Despliegue Local
+RF2.1 El estudiante debe poder ingresar con una autenticación básica (puede ser mock o simplificada).
 
-1. Clonar el repositorio:
-```bash
-git clone https://github.com/MarycieloBerrio/evaluacion-docente.git
-cd evaluacion-docente
-```
+RF2.2 El estudiante debe poder ver y responder una encuesta de 3 preguntas.
 
-2. Instalar dependencias:
-```bash
-npm install
-```
+RF2.3 El estudiante no debe poder volver a responder una encuesta ya enviada.
 
-3. Iniciar el servidor de desarrollo:
-```bash
-npm run dev
-```
 
-4. Abrir el navegador en `http://localhost:5173`
+3. Funcionalidades para Administradores
 
-## Scripts Disponibles
+RF3.1 El administrador debe poder:
 
-- `npm run dev`: Inicia el servidor de desarrollo
-- `npm run build`: Construye la aplicación para producción
-- `npm run lint`: Ejecuta el linter
-- `npm run preview`: Previsualiza la versión de producción
+Activar o desactivar la encuesta.
 
-## Estructura del Proyecto
+Modificar las preguntas de la encuesta.
 
-```
-evaluacion-docente/
-├── src/
-│   ├── assets/        # Recursos estáticos
-│   ├── components/    # Componentes reutilizables
-│   ├── context/       # Estado global
-│   ├── pages/         # Páginas principales
-│   └── styles/        # Archivos CSS
-```
+Modificar el valor que tiene la encuesta en la nota final.
 
-## Tecnologías Utilizadas
 
-- React 19
-- Vite
-- React Router DOM
-- XLSX para manejo de archivos Excel
-- ESLint para calidad de código
+RF3.2 El administrador debe poder darle al botón: calcular los resultados de la encuesta (se hace solo una vez por encuesta).
+
+RF3.3 Una vez calculados los resultados y cerrada la encuesta, los resultados deben quedar visibles para los docentes.
+
+
+4. Funcionalidades para Docentes
+
+RF4.1 El docente debe poder ver la nota correspondiente a su evaluación cuando esta se haya liberado por el administrador.
+
+
+ *Requerimientos No Funcionales* 
+
+RNF1: La interfaz debe ser simple y coincidir con el estilo visual actual.
+
+RNF2: La arquitectura debe ser monolitica pero se debe trabajar en react con componentes reutilizables.
+
+RNF3: El sistema debe poder ser desplegado fácilmente en local.
+
+RNF4: Se debe contar con una estructura mínima de autenticación o mock de autenticación por rol (lo más simple posible, puede ser con rutas).
+
+RNF5: El sistema debe tener persistencia temporal de datos (puede ser una base de datos simple o almacenamiento en archivos locales para la prueba).
+
+RNF6: El sistema debe permitir una fácil extensión futura (por ejemplo, agregar nuevas preguntas).
