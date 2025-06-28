@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "email": "mberrioz@unal.edu.co",
+      "roles": ["estudiante", "admin", "profesor"],
+      "name": "Marycielo Berrio"
+    },
+    {
+      "email": "natocancipag@unal.edu.co",
+      "roles": ["estudiante", "admin", "profesor"],
+      "name": "Nestor Augusto Tocancipa"
+    }
+  ]
+} 
